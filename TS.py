@@ -24,9 +24,6 @@ class TSPredict:
 
     def set_decompose_model(self, model_name: str, params: dict):
         self.decompose_result = self.tsDecomposeModel.decompose(model_name, self.data, params)
-        decompose_model = self.tsDecomposeModel.get_model_name()
-        if decompose_model == 'x11':
-            self.half_period = self.tsDecomposeModel.x11_half_period()
         if self.insample:
             self.trend_train = self.decompose_result.trend[:-self.future]
             self.season_train = self.decompose_result.seasonal[:-self.future]
@@ -55,28 +52,13 @@ class TSPredict:
         self.__residual_model.set_parameters(self.residual_train, params)
 
     def predict_trend(self, params: dict):
-        future = self.future
-        if self.tsDecomposeModel.is_x11():
-            future += self.half_period
-        self.trend_predict = self.__trend_model.predict(future, self.freq, params)
-        if self.tsDecomposeModel.is_x11():
-            # self.trend_predict = self.trend_predict[-(future - self.half_period):]
-            future_data = pd.date_range(start=self.trend_train.index[-1], periods=future + 1, freq=self.freq)[1:]
-            self.trend_predict = pd.Series(data=self.trend_predict, index=future_data)
+        self.trend_predict = self.__trend_model.predict(self.future, self.freq, params)
 
     def predict_season(self, params: dict):
-        future = self.future
-        self.season_predict = self.__season_model.predict(future, self.freq, params)
+        self.season_predict = self.__season_model.predict(self.future, self.freq, params)
 
     def predict_residual(self, params: dict):
-        future = self.future
-        if self.tsDecomposeModel.is_x11():
-            future += self.half_period
-        self.residual_predict = self.__residual_model.predict(future, self.freq, params)
-        if self.tsDecomposeModel.is_x11():
-            # self.residual_predict = self.residual_predict[-(future - self.half_period):]
-            future_data = pd.date_range(start=self.residual_train.index[-1], periods=future + 1, freq=self.freq)[1:]
-            self.residual_predict = pd.Series(data=self.residual_predict, index=future_data)
+        self.residual_predict = self.__residual_model.predict(self.future, self.freq, params)
 
     def predict(self, decompose_mode="add", use_residual=True):
         if decompose_mode == "add":
@@ -90,20 +72,11 @@ class TSPredict:
         else:
             raise Exception("decompose_mode must be `add` or `mul`")
         if self.insample:
-            decompose_model_name = self.tsDecomposeModel.get_model_name()
-            if decompose_model_name == "x11":
-                self.total_predict = self.total_predict[self.half_period:]
-                d = {"trend"   : [self.trend_test, self.trend_predict[self.half_period:]],
-                     "season"  : [self.season_test, self.season_predict],
-                     "residual": [self.residual_test, self.residual_predict[self.half_period:]],
-                     "#total#" : [self.test, self.total_predict]
-                     }
-            else:
-                d = {"trend"   : [self.trend_test, self.trend_predict],
-                     "season"  : [self.season_test, self.season_predict],
-                     "residual": [self.residual_test, self.residual_predict],
-                     "#total#": [self.test, self.total_predict]
-                     }
+            d = {"trend": [self.trend_test, self.trend_predict],
+                 "season": [self.season_test, self.season_predict],
+                 "residual": [self.residual_test, self.residual_predict],
+                 "#total#": [self.test, self.total_predict]
+                 }
             for k, v in d.items():
                 rmse = np.sqrt(mean_squared_error(v[0], v[1]))
                 r2 = r2_score(v[0], v[1])
@@ -112,6 +85,9 @@ class TSPredict:
                 print("R2 for {}: {:.4f}".format(k, r2))
                 print("Adjusted R2 for {}: {:.4f}".format(k, adjust_r2))
                 print()
+        else:
+            print("Out-of-sample predictions. No RMSE or R-squared.")
+            print()
 
     def check_residual(self):
         # adf检验

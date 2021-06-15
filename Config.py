@@ -32,7 +32,7 @@ class Config:
 
         Parameters with optional values
         ----------
-            docompose_params: {dict, None}
+            decompose_params: {dict, None}
                 stl
                     {"period": {int, period}}
 
@@ -57,9 +57,11 @@ class Config:
                     "cap": {int, None}, "cap" can only be set if "logistic"}
 
             trend_pred_params, season_pred_params, residual_params: {dict, None}
-        """
+
+        Example
+        ----------
         self.insample = True
-        self.future = 36
+        self.future = 48
         self.period = 12
         self.freq = "MS"
 
@@ -68,15 +70,43 @@ class Config:
         self.season_model = 'holt'
         self.residual_model = 'arima'
 
-        self.docompose_params = {"period": self.period,
+        self.decompose_params = {"period": self.period,
                                  "model": "add"}
         self.trend_params = {"trend": "add",
                              "seasonal": "add",
                              "seasonal_periods": self.period
                              }
-        self.sanson_params = {"growth": "linear",
+        self.season_params = {"growth": "linear",
+                              "cap": None}
+
+        self.trend_pred_params = {}
+        self.season_pred_params = {}
+        self.residual_pred_params = {}
+        """
+        self.insample = True
+        self.future = 48
+        self.period = 12
+        self.freq = "MS"
+
+        self.decompose_model = 'x11'
+        self.trend_model = 'prophet'
+        self.season_model = 'holt'
+        self.residual_model = 'arima'
+
+        self.decompose_params = {"period": self.period,
+                                 "model": "add"}
+        self.trend_params = {"trend": "add",
+                             "seasonal": "add",
+                             "seasonal_periods": self.period
+                             }
+        self.season_params = {"growth": "linear",
                               "cap": None}
         self.residual_params = {"m": self.period}
+
+        # self.decompose_params = {}
+        # self.trend_params = {}
+        # self.season_params = {}
+        # self.residual_params = {}
 
         self.trend_pred_params = {}
         self.season_pred_params = {}
