@@ -18,9 +18,9 @@ class TSProphet(BasePredictionModel):
         self.model = Prophet(growth=params.get("growth", "linear"),
                             holidays=params.get("holidays", None)).fit(data)
 
-    def predict(self, future:int, params):
+    def predict(self, future:int, freq, params):
         future_data = self.model.make_future_dataframe(
-            periods=future, freq=params.get("freq", "D"))
+            periods=future, freq=freq)
         future_data['cap'] = params.get("cap", 10000)
         prediction = self.model.predict(
             future_data)['yhat'][-future:]
