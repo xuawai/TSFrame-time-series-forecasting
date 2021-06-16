@@ -1,4 +1,5 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod
+import pandas as pd
 
 
 class BasePredictionModel():
@@ -8,5 +9,9 @@ class BasePredictionModel():
         self.model = None
 
     @abstractmethod
-    def set_parameters(self, train_data, params):
+    def set_parameters(self, train_data:pd.Series, params:dict):
+        pass
+
+    @abstractmethod
+    def predict(self, future:int, params:dict):
         pass

@@ -27,7 +27,7 @@ class TSDecomposeModel:
         elif model_name == "x11":
             result = seasonal_decompose(train_data,
                                      period=params.get("period", None),
-                                     model=params.get("model", "additive"),
+                                     model=params.get("model", "add"),
                                      extrapolate_trend=params.get("period", 1))
         else:
             raise Exception("Decompose Model {} has not been registered!".format(model_name))

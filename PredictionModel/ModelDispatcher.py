@@ -29,7 +29,7 @@ class ModelDispatcher:
             model = TSLinear(model_name)
         else:
             raise Exception("Model #{}# has not been registered!".format(model_name))
-        assert component in ["trend", "season", "residual"]
+        assert component in ["trend", "season", "residual", "raw"]
         self.component2modelname[component] = model_name
         self.component2model[component] = model
         return model

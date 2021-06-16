@@ -6,23 +6,22 @@ class Config:
 
     def __init__(self):
         """
+        Support two kinds of configurations: Use the decomposition model or not.
+        Refer to self.decompose_example() and self.no_decompose_example() for the configuration.
+
         Parameters which must be set manually and correctly
         ----------
-            insample: boolean
+            insample: {boolean, True}
                 in-sample predictions or out-of-sample predictions
 
             future: int
                 the length of predictions
 
-            freqs : {str, 'D"}
-                'D', 'W', 'M', 'MS'...
-                Any valid frequency for pd.date_range,
-                Refer to https://blog.csdn.net/wangqi_qiangku/article/details/79384731
-
-            decompose_model: str
+            decompose_model: str or None
                 'x11', 'stl', 'robuststl'
+                if set to None, use no decomposition model.
 
-            trend_model, season_model, residual_model: str
+            trend_model, season_model, residual_model, raw_model: str
                 'holt', 'arima', 'prophet'
 
         Parameters which are highly recommended to be set
@@ -30,7 +29,7 @@ class Config:
             period : int
                 The period of the input time series
 
-        Parameters with optional values
+        Parameters which can be set to an empty dict {}
         ----------
             decompose_params: {dict, None}
                 stl
@@ -43,7 +42,7 @@ class Config:
                     {"period": {int, period}
                     "model": {str, "add" or "mul"}}
 
-            trend_params, season_params, residual_params: {dict, None}
+            trend_train_params, season_train_params, residual_train_params, raw_train_params: {dict, None}
                 holt
                     {"trend": {str, "add" or "mul"}
                     "seasonal": {str, "add" or "mul"}
@@ -56,37 +55,53 @@ class Config:
                     {"growth": {str, "linear" or "logistic"}
                     "cap": {int, None}, "cap" can only be set if "logistic"}
 
-            trend_pred_params, season_pred_params, residual_params: {dict, None}
+            trend_pred_params, season_pred_params, residual_pred_params, raw_pred_params: {dict, None}
 
         Example
         ----------
-        self.insample = True
-        self.future = 48
-        self.period = 12
-        self.freq = "MS"
-
-        self.decompose_model = 'x11'
-        self.trend_model = 'prophet'
-        self.season_model = 'holt'
-        self.residual_model = 'arima'
-
-        self.decompose_params = {"period": self.period,
-                                 "model": "add"}
-        self.trend_params = {"trend": "add",
-                             "seasonal": "add",
-                             "seasonal_periods": self.period
-                             }
-        self.season_params = {"growth": "linear",
-                              "cap": None}
-
-        self.trend_pred_params = {}
-        self.season_pred_params = {}
-        self.residual_pred_params = {}
+        self.decompose_example()
+        self.no_decompose_example()
         """
+        self.decompose_example()
+
+    def print_config(self):
+        print("Configuration")
+        print('*'*40)
+        print("Basic Info:")
+        print("insample = {}".format(self.insample))
+        print("future = {}".format(self.future))
+        print("period = {}".format(self.period))
+        print("Model Info:")
+        if self.decompose_model:
+            print("decompose_model = {}".format(self.decompose_model))
+            print("decompose_params = {}".format(self.decompose_params))
+            print("trend_model = {}".format(self.trend_model))
+            print("trend_train_params = {}".format(self.trend_train_params))
+            print("season_model = {}".format(self.season_model))
+            print("season_train_params = {}".format(self.season_train_params))
+            print("residual_model = {}".format(self.residual_model))
+            print("residual_train_params = {}".format(self.residual_train_params))
+        else:
+            print("raw_model = {}".format(self.raw_model))
+            print("raw_train_params = {}".format(self.raw_train_params))
+            print("raw_pred_params = {}".format(self.raw_pred_params))
+        print('*' * 40)
+        print()
+
+    def no_decompose_example(self):
         self.insample = True
         self.future = 48
         self.period = 12
-        self.freq = "MS"
+
+        self.decompose_model = None
+        self.raw_model = 'arima'
+        self.raw_train_params = {"m": self.period}
+        self.raw_pred_params = {}
+
+    def decompose_example(self):
+        self.insample = True
+        self.future = 48
+        self.period = 12
 
         self.decompose_model = 'x11'
         self.trend_model = 'prophet'
@@ -95,18 +110,13 @@ class Config:
 
         self.decompose_params = {"period": self.period,
                                  "model": "add"}
-        self.trend_params = {"trend": "add",
+        self.trend_train_params = {"trend": "add",
                              "seasonal": "add",
                              "seasonal_periods": self.period
                              }
-        self.season_params = {"growth": "linear",
+        self.season_train_params = {"growth": "linear",
                               "cap": None}
-        self.residual_params = {"m": self.period}
-
-        # self.decompose_params = {}
-        # self.trend_params = {}
-        # self.season_params = {}
-        # self.residual_params = {}
+        self.residual_train_params = {"m": self.period}
 
         self.trend_pred_params = {}
         self.season_pred_params = {}

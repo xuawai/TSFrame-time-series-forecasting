@@ -14,7 +14,7 @@ class TSLinear(BasePredictionModel):
         self.model = lin.fit(np.arange(len(train_data.values)).reshape(-1, 1),
                              train_data.values)
 
-    def predict(self, future:int, freq, params):
+    def predict(self, future, params):
         prediction = self.model.predict(
                 np.arange(len(self.train_data.values),
                           len(self.train_data.values) + future).reshape(-1, 1))

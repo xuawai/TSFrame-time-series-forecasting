@@ -17,7 +17,8 @@ class TSArima(BasePredictionModel):
                                 error_action=params.get("error_action", 'ignore'),
                                 suppress_warnings=params.get("suppress_warnings", True)).fit(train_data)
 
-    def predict(self, future, freq, params):
+    def predict(self, future, params):
+        freq = self.train_data.index.inferred_freq
         future_data = pd.date_range(start=self.train_data.index[-1], periods=future + 1, freq=freq)[1:]
         prediction = self.model.predict(n_periods=future)
         prediction = pd.Series(data=prediction, index=future_data)

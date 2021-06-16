@@ -14,6 +14,6 @@ class TSHolt(BasePredictionModel):
                                             seasonal_periods = params.get("seasonal_periods", None)
                                             ).fit()
 
-    def predict(self, future:int, freq, params):
+    def predict(self, future, params):
         prediction = self.model.forecast(future)
         return prediction
