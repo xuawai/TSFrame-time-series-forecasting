@@ -1,4 +1,4 @@
-#### Background
+### Background
 TSFrame is a project used for univariate time series forecasting. 
 Python 3.6 is required.
 
@@ -23,17 +23,17 @@ Python 3.6 is required.
 * different models for different components (e.g., holt for trend, arima for seasonal, prophet for residual)
 * easy to extend for more models
 
-#### Quick Start
+### Quick Start
 
 ```shell
 python main.py
 ```
 
-#### Usage
+### Usage
 
 Refr to [Config.py](Config.py) for the docs on how to change the default parameters for your own time series forecasting task.
 
-#### Examples
+### Examples
 
 Use the default parameters provided in [Config.py](Config.py)
 
