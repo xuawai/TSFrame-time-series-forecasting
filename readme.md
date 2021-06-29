@@ -1,12 +1,13 @@
-####Background
-TSFrame is a  python project used for univariate time series forecasting. 
+#### Background
+TSFrame is a project used for univariate time series forecasting. 
+Python 3.6 is required.
 
-#####Models:
+##### Models:
 
 * decompose model: STL, RobustSTL, X11
 * forecasting model: Arima, Holt, Prophet
 
-#####Modes:
+##### Modes:
 
 * decompose
   * decompose the data into three components: trend, seasonal and residual
@@ -15,7 +16,7 @@ TSFrame is a  python project used for univariate time series forecasting.
 * no decompose
   * model the data directly
 
-#####Features:
+##### Features:
 
 * in-sample & out-of-sample predictions
 * decompose & no decompose results
@@ -36,7 +37,7 @@ Refr to [Config.py](Config.py) for the docs on how to change the default paramet
 
 Use the default parameters provided in [Config.py](Config.py)
 
-#####Decompose Mode
+##### Decompose Mode
 
 * Decompose result 
 
@@ -58,6 +59,6 @@ Use the default parameters provided in [Config.py](Config.py)
 
   ![total](./img/total.png)
 
-#####No Decompose Mode
+##### No Decompose Mode
 
 ![no_decompose_total](./img/no_decompose_total.png)
