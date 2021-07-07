@@ -10,20 +10,21 @@ class TSProphet(BasePredictionModel):
         super().__init__(model_name)
 
     def set_parameters(self, train_data, params):
+        self.cap = params.get("cap", 10000)
         data = pd.DataFrame(train_data.copy())
         data['y_orig'] = data['y'] = train_data
         data['ds'] = list(train_data.index)
-        data['cap'] = params.get("cap", 10000)
-        self.data = data
+        data['cap'] = self.cap
         self.train_data = train_data
         self.model = Prophet(growth=params.get("growth", "linear"),
-                            holidays=params.get("holidays", None)).fit(data)
+                             holidays=params.get("holidays", None),
+                             seasonality_mode=params.get("seasonality_mode", "additive")).fit(data)
 
     def predict(self, future, params):
         freq = self.train_data.index.inferred_freq
         future_data = self.model.make_future_dataframe(
             periods=future, freq=freq)
-        future_data['cap'] = self.data['cap']
+        future_data['cap'] = self.cap
         prediction = self.model.predict(
             future_data)['yhat'][-future:]
         prediction = pd.Series(data=prediction.values,

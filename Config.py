@@ -11,7 +11,7 @@ class Config:
 
         Parameters which must be set manually and correctly
         ----------
-            insample: {boolean, True}
+            insample: boolean
                 in-sample predictions or out-of-sample predictions
 
             future: int
@@ -19,7 +19,7 @@ class Config:
 
             decompose_model: str or None
                 'x11', 'stl', 'robuststl'
-                if set to None, use no decomposition model.
+                if set to None, use no decomposition mode.
 
             trend_model, season_model, residual_model, raw_model: str
                 'holt', 'arima', 'prophet'
@@ -32,28 +32,29 @@ class Config:
         Parameters which can be set to an empty dict {}
         ----------
             decompose_params: {dict, None}
-                stl
+                - stl
                     {"period": {int, period}}
 
-                robuststl
+                - robuststl
                     {"period": {int, period}}
 
-                x11
+                - x11
                     {"period": {int, period}
                     "model": {str, "add" or "mul"}}
 
             trend_train_params, season_train_params, residual_train_params, raw_train_params: {dict, None}
-                holt
+                - holt
                     {"trend": {str, "add" or "mul"}
                     "seasonal": {str, "add" or "mul"}
                     "seasonal_periods": {int, period}}
 
-                arima
+                - arima
                     {"m": {int, period}}
 
-                prophet
-                    {"growth": {str, "linear" or "logistic"}
-                    "cap": {int, None}, "cap" can only be set if "logistic"}
+                - prophet
+                    {"growth": {str, "linear" or "logistic"},
+                    "seasonality_mode": {str, "additive" or "multiplicative"}
+                    "cap": {int, 10000}, "cap" can only work if "logistic"}
 
             trend_pred_params, season_pred_params, residual_pred_params, raw_pred_params: {dict, None}
 
@@ -62,7 +63,7 @@ class Config:
         self.decompose_example()
         self.no_decompose_example()
         """
-        self.decompose_example()
+        self.no_decompose_example()
 
     def print_config(self):
         print("Configuration")
@@ -94,9 +95,20 @@ class Config:
         self.period = 12
 
         self.decompose_model = None
+
         self.raw_model = 'arima'
         self.raw_train_params = {"m": self.period}
         self.raw_pred_params = {}
+
+        # self.raw_model = 'prophet'
+        # self.raw_train_params = {"growth": "linear",
+        #                          "seasonality_mode": "multiplicative",
+        #                          "cap": 10000}
+        # self.raw_pred_params = {}
+
+        # self.raw_model = 'holt'
+        # self.raw_train_params = {}
+        # self.raw_pred_params = {}
 
     def decompose_example(self):
         self.insample = True
@@ -104,8 +116,8 @@ class Config:
         self.period = 12
 
         self.decompose_model = 'x11'
-        self.trend_model = 'prophet'
-        self.season_model = 'holt'
+        self.trend_model = 'holt'
+        self.season_model = 'prophet'
         self.residual_model = 'arima'
 
         self.decompose_params = {"period": self.period,
@@ -115,7 +127,8 @@ class Config:
                              "seasonal_periods": self.period
                              }
         self.season_train_params = {"growth": "linear",
-                              "cap": None}
+                                    "seasonality_mode": "multiplicative",
+                                    "cap": 10000}
         self.residual_train_params = {"m": self.period}
 
         self.trend_pred_params = {}
