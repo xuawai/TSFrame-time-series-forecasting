@@ -63,7 +63,8 @@ class Config:
         self.decompose_example()
         self.no_decompose_example()
         """
-        self.no_decompose_example()
+        self.decompose_example()
+        # self.no_decompose_example()
 
     def print_config(self):
         print("Configuration")

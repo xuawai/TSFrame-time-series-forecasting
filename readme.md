@@ -1,43 +1,33 @@
-### Background
+## Background
 TSFrame is a project used for univariate time series forecasting. 
 Python 3.6 is required.
 
-##### Models:
-
-* decompose model: STL, RobustSTL, X11
-* forecasting model: Arima, Holt, Prophet
-
-##### Modes:
-
-* decompose
-  * decompose the data into three components: trend, seasonal and residual
-  * model each component separately
-  * aggregate the results as the final prediction
-* no decompose
-  * model the data directly
-
 ##### Features:
-
+* support STL/RobustSTL/X11 for time series decomposition
+* support Arima/Holt/Prophet for time series forecasting
+* no-decompose mode: predict the time series data directly
+* decompose mode:
+  1. decompose the data into three components: trend, seasonal and residual
+  2. predict each component separately with specified model
+  3. aggregate the results as the final prediction
 * in-sample & out-of-sample predictions
-* decompose & no decompose results
-* different models for different components (e.g., holt for trend, arima for seasonal, prophet for residual)
 * easy to extend for more models
 
-### Quick Start
+## Quick Start
 
 ```shell
 python main.py
 ```
 
-### Usage
+## Usage
 
 Refr to [Config.py](Config.py) for the docs on how to change the default parameters for your own time series forecasting task.
 
-### Examples
+## Examples
 
 Use the default parameters provided in [Config.py](Config.py)
 
-##### Decompose Mode
+##### Decompose Mode (Holt for trend, Prophet for seasonal, Arima for residual)
 
 * Decompose result 
 
@@ -59,6 +49,6 @@ Use the default parameters provided in [Config.py](Config.py)
 
   ![total](./img/total.png)
 
-##### No Decompose Mode
+##### No-decompose Mode (use Arima)
 
 ![no_decompose_total](./img/no_decompose_total.png)
