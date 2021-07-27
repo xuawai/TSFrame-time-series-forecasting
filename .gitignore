@@ -3,6 +3,5 @@
 *.pkl
 *.pth
 *.pyc
-*.csv
 *.neg
 *.pos
