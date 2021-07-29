@@ -60,8 +60,9 @@ class Config:
 
         Example
         ----------
-        self.decompose_example()
-        self.no_decompose_example()
+            self.decompose_example()
+        or:
+            self.no_decompose_example()
         """
         self.decompose_example()
         # self.no_decompose_example()
@@ -101,12 +102,14 @@ class Config:
         self.raw_train_params = {"m": self.period}
         self.raw_pred_params = {}
 
+        # If use prophet, uncomment the following 3 lines.
         # self.raw_model = 'prophet'
         # self.raw_train_params = {"growth": "linear",
         #                          "seasonality_mode": "multiplicative",
         #                          "cap": 10000}
         # self.raw_pred_params = {}
 
+        # If use holt, uncomment the following 3 lines.
         # self.raw_model = 'holt'
         # self.raw_train_params = {}
         # self.raw_pred_params = {}

@@ -2,7 +2,7 @@ from PredictionModel.BasePredictionModel import BasePredictionModel
 from sklearn.linear_model import LinearRegression
 import numpy as np
 
-
+#todo: to be tested..
 class TSLinear(BasePredictionModel):
 
     def __init__(self, model_name):
