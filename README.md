@@ -1,3 +1,10 @@
+<h4 align="center">
+    <p>
+        <b>English</b> |
+        <a href="https://github.com/xuawai/TSFrame-time-series-forecasting/blob/master/README_zh-hans.md">简体中文</a> 
+    <p>
+</h4>
+
 ## Background
 TSFrame is a project used for univariate time series forecasting. 
 Python 3.6 is required.
@@ -21,7 +28,7 @@ python main.py
 
 ## Usage
 
-Refr to [Config.py](Config.py) for the docs on how to change the default parameters for your own time series forecasting task.
+Refer to [Config.py](Config.py) for the docs on how to change the default parameters for your own time series forecasting task.
 
 ## Examples
 
