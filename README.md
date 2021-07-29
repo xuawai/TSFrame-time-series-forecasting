@@ -1,61 +1,60 @@
 <h4 align="center">
     <p>
-        <b>English</b> |
-        <a href="https://github.com/xuawai/TSFrame-time-series-forecasting/blob/master/README_zh-hans.md">简体中文</a> 
+        <b>简体中文</b> |
+        <a href="https://github.com/xuawai/TSFrame-time-series-forecasting/blob/master/README_en.md">English</a> 
     <p>
 </h4>
 
-## Background
-TSFrame is a project used for univariate time series forecasting. 
-Python 3.6 is required.
+## 项目背景
+TSFrame是一个单指标时间序列数据预测项目，使用统一接口整合了多种时序分解方法与时序预测方法。
 
-##### Features:
-* support STL/RobustSTL/X11 for time series decomposition
-* support Arima/Holt/Prophet for time series forecasting
-* no-decompose mode: predict the time series data directly
-* decompose mode:
-  1. decompose the data into three components: trend, seasonal and residual
-  2. predict each component separately with specified model
-  3. aggregate the results as the final prediction
-* in-sample & out-of-sample predictions
-* easy to extend for more models
+项目在Python 3.6的环境下运行。
 
-## Quick Start
+##### 特点:
+* 支持的时间序列分解方法包括：STL、RobustSTL、X11
+* 支持的时间序列预测方法包括：Arima、Holt、Prophet
+* 在无分解模式下，直接对时序数据进行预测。
+* 在分解模式下，首先将时序数据分解为趋势项、季节项与残差项；接着，使用指定模型对每一项分别进行预测；最后，聚合各项预测结果，最后时序数据的最终预测结果。
+
+* 支持in-sample & out-of-sample预测
+* 轻松拓展至更多模型
+
+## 快速上手
 
 ```shell
 python main.py
 ```
 
-## Usage
+## 用法
 
-Refer to [Config.py](Config.py) for the docs on how to change the default parameters for your own time series forecasting task.
+参考[Config.py](Config.py) 文件中的注释，根据时序预测任务的实际需求，灵活配置模型及参数。
 
-## Examples
+## 示例
 
-Use the default parameters provided in [Config.py](Config.py)
+以下实验结果来自 [Config.py](Config.py)文件提供的默认配置：
 
-##### Decompose Mode (Holt for trend, Prophet for seasonal, Arima for residual)
+##### 分解模式 (趋势项建模：Holt,；季节项建模：Prophet, 残差项建模：Arima)
 
-* Decompose result 
+* 加性分解
 
   ![decompose](./img/decompose.png)
 
-* trend prediction
+* 趋势项预测
 
   ![trend](./img/trend.png)
 
-* seasonal prediction
+* 季节项预测
 
   ![season](./img/season.png)
 
-* residual prediction
+* 残差项预测
 
   ![residual](./img/residual.png)
 
-* final prediction
+* 最终预测结果
 
   ![total](./img/total.png)
 
-##### No-decompose Mode (use Arima)
+##### 无分解模式 (使用Arima建模)
 
 ![no_decompose_total](./img/no_decompose_total.png)
